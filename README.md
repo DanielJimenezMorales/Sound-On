@@ -13,3 +13,7 @@ Sound On tendrá dos modos de juego:
 - Modo sordo: En este modo el jugador escuchará una serie de palabras, frases y situaciones como lo haría una persona con problemas auditivos. Tras esto, el jugador deberá de elegir entre una serie de imágenes/objetos/teclado el que describa lo dicho en el audio. En caso de que la dificultad sea muy elevada, el jugador podrá desactivar el filtro y oírlo adecuádamente.
 
 - Modo aprendizaje sordo: En este modo el jugador (el cuál poseerá cierto grado de discapacidad auditiva) escuchará una serie de palabras, frases y situaciones simulando como sería escuchado con la ayuda de un audífono. Tras esto, el jugador deberá de elegir entre una serie de imágenes/objetos/teclado el que describa lo dicho en el audio.
+
+## Aspectos técnicos:
+Motor de desarrollo: Unity 3D
+Versión del motor: ...
