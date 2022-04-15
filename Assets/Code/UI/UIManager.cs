@@ -2,11 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ScreenType
-{
-    WinningScreen = 0
-}
-
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private ScreenType initalScreenType = ScreenType.WinningScreen;
@@ -20,6 +15,7 @@ public class UIManager : MonoBehaviour
         if(singletonInstance == null)
         {
             singletonInstance = this;
+            Object.DontDestroyOnLoad(this);
             Init();
         }
     }
@@ -42,6 +38,11 @@ public class UIManager : MonoBehaviour
 
         //Habilitar la inicial
         ChangeScreen(initalScreenType);
+    }
+
+    public void StartGame()
+    {
+        ChangeScreen(ScreenType.InGameScreen);
     }
 
     public void ChangeScreen(ScreenType type)
