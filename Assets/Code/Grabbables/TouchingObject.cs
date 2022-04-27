@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
 public class TouchingObject : MonoBehaviour
@@ -8,6 +9,7 @@ public class TouchingObject : MonoBehaviour
     [SerializeField] private Color onLoosingColor = Color.red;
     private Action OnWinning;
     private Action OnLoosing;
+    private bool hasInteracted = false;
 
     private void OnEnable()
     {
@@ -50,21 +52,41 @@ public class TouchingObject : MonoBehaviour
     private void AddingToOnWinning()
     {
         OnWinning += ShowWinningUI;
+        OnWinning += LevelUpHearingLoss;
     }
 
     private void AddingToOnLoosing()
     {
         OnLoosing += SetColor;
+        OnLoosing += LevelDownHearingLoss;
     }
 
     private void SubstractToOnWinning()
     {
         OnWinning -= ShowWinningUI;
+        OnWinning -= LevelUpHearingLoss;
     }
 
     private void SubstractToOnLoosing()
     {
         OnLoosing -= SetColor;
+        OnLoosing -= LevelDownHearingLoss;
+    }
+
+    private void LevelUpHearingLoss()
+    {
+        if (hasInteracted) return;
+
+        hasInteracted = true;
+        AudioManager.instance.LevelUp();
+    }
+
+    private void LevelDownHearingLoss()
+    {
+        if (hasInteracted) return;
+
+        hasInteracted = true;
+        AudioManager.instance.LevelDown();
     }
 
     #region OnLoosing Methods
@@ -78,6 +100,12 @@ public class TouchingObject : MonoBehaviour
     private void ShowWinningUI()
     {
         UIManager.GetInstance().ChangeScreen(ScreenType.WinningScreen);
+        GameObject.FindWithTag("Player").transform.position = new Vector3(0, 1, 0);
+    }
+
+    public void Reset()
+    {
+        hasInteracted = false;
     }
     #endregion
 }

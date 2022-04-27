@@ -19,6 +19,5 @@ public class prueba : MonoBehaviour
     private void pruebaa()
     {
         UIManager.GetInstance().ChangeScreen(ScreenType.InGameScreen);
-        SceneController.GetInstance().ChangeToFirstLevel();
     }
 }
