@@ -54,7 +54,7 @@ public class AudioManager : MonoBehaviour
     private void Init()
     {
         levelsOfHearing = new List<HearingLevels>();
-
+        //Cambiar
         levelsOfHearing.Add(new HearingLevels(6, T_HLClassificationScaleCurve.HL_CS_A, T_HLClassificationScaleSeverity.HL_CS_SEVERITY_MILDMODERATE));
         levelsOfHearing.Add(new HearingLevels(6, T_HLClassificationScaleCurve.HL_CS_A, T_HLClassificationScaleSeverity.HL_CS_SEVERITY_MILDMODERATE));
         levelsOfHearing.Add(new HearingLevels(6, T_HLClassificationScaleCurve.HL_CS_A, T_HLClassificationScaleSeverity.HL_CS_SEVERITY_MILDMODERATE));
@@ -72,6 +72,8 @@ public class AudioManager : MonoBehaviour
         }
         SetAudioHearingLossConfig();
         Debug.Log("Subo de nivel");
+
+        //ApllyAid();
     }
 
     public void LevelDown()
@@ -83,10 +85,27 @@ public class AudioManager : MonoBehaviour
 
         SetAudioHearingLossConfig();
         Debug.Log("Bajo de nivel");
+
+        UnapplyAid();
     }
 
     private void SetAudioHearingLossConfig()
     {
         audioAPIHearingLoss.SetAudiometryFromClassificationScale(T_ear.BOTH, levelsOfHearing[currentIndex].hearingLossCurve, levelsOfHearing[currentIndex].slope, levelsOfHearing[currentIndex].hearingLossSeverity);
+    }
+
+    public void ApllyAid()
+    {
+        audioAPIAid.EnableHAInBothEars(true);
+        List<float> hearingLevelsList = new List<float>(audioAPIHearingLoss.PARAM_AUDIOMETRY_LEFT);
+        hearingLevelsList.Remove(8);
+        hearingLevelsList.Remove(0);
+        List<float> calculatedGains;
+        audioAPIAid.SetEQFromFig6(T_ear.BOTH, hearingLevelsList, out calculatedGains);
+    }
+
+    private void UnapplyAid()
+    {
+        audioAPIAid.EnableHAInBothEars(false);
     }
 }

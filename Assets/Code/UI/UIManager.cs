@@ -47,8 +47,17 @@ public class UIManager : MonoBehaviour
 
     public void ChangeScreen(ScreenType type)
     {
-        //Desactivar la pantalla actual
-        if(currentScreenIndex != -1)
+        if(type.CompareTo(ScreenType.MainMenuScreen) == 0)
+        {
+            InteractorSwap.instance.EnableXRRayInteractors();
+        }
+        else if (type.CompareTo(ScreenType.InGameScreen) == 0)
+        {
+            InteractorSwap.instance.EnableDirectInteractors();
+        }
+
+            //Desactivar la pantalla actual
+            if (currentScreenIndex != -1)
         {
             screens[currentScreenIndex].Disable();
         }
