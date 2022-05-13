@@ -73,7 +73,6 @@ public class TouchingObject : MonoBehaviour
         //Comprueba si has ganado o perdido.
         //En el caso de que hayas ganado se para el juego y te sale una pantalla de has ganado de interfaz. Cambiar el direct interactor por el XRay interactor o que se vaya directamente al siguiente nivel
         //En el caso de que pierda, cambiamos el color del objeto para decir que ese ya no es y un audio/texto que diga por unos segundos "Este no es" o similar.
-        Debug.Log("SDFUYSDUYFGHDFUI");
         if (CheckWinning())
         {
             OnWinning?.Invoke();
@@ -144,7 +143,8 @@ public class TouchingObject : MonoBehaviour
     #region OnWinning Methods
     private void ShowWinningUI()
     {
-        UIManager.GetInstance().ChangeScreen(ScreenType.WinningScreen);
+        //UIManager.GetInstance().ChangeScreen(ScreenType.WinningScreen);
+        LevelCreator.GetInstance().SubirNivel();
         GameObject.FindWithTag("Player").transform.position = new Vector3(0, 1, 0);
     }
 

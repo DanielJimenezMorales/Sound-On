@@ -26,12 +26,16 @@ public class AudioManager : MonoBehaviour
     private List<HearingLevels> levelsOfHearing = null;
     private int currentIndex = 0;
     public static AudioManager instance;
+    private AudioSource audioSource = null;
 
     private void Awake()
     {
         if(instance == null)
         {
             instance = this;
+            audioSource = GetComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            audioSource.loop = true;
         }
         else
         {
@@ -55,13 +59,24 @@ public class AudioManager : MonoBehaviour
     {
         levelsOfHearing = new List<HearingLevels>();
         //Cambiar
+        levelsOfHearing.Add(new HearingLevels(6, T_HLClassificationScaleCurve.HL_CS_K, T_HLClassificationScaleSeverity.HL_CS_SEVERITY_MODERATE));
+        levelsOfHearing.Add(new HearingLevels(6, T_HLClassificationScaleCurve.HL_CS_A, T_HLClassificationScaleSeverity.HL_CS_SEVERITY_MODERATE));
+        levelsOfHearing.Add(new HearingLevels(6, T_HLClassificationScaleCurve.HL_CS_C, T_HLClassificationScaleSeverity.HL_CS_SEVERITY_MILDMODERATE));
         levelsOfHearing.Add(new HearingLevels(6, T_HLClassificationScaleCurve.HL_CS_A, T_HLClassificationScaleSeverity.HL_CS_SEVERITY_MILDMODERATE));
-        levelsOfHearing.Add(new HearingLevels(6, T_HLClassificationScaleCurve.HL_CS_A, T_HLClassificationScaleSeverity.HL_CS_SEVERITY_MILDMODERATE));
-        levelsOfHearing.Add(new HearingLevels(6, T_HLClassificationScaleCurve.HL_CS_A, T_HLClassificationScaleSeverity.HL_CS_SEVERITY_MILDMODERATE));
-        levelsOfHearing.Add(new HearingLevels(6, T_HLClassificationScaleCurve.HL_CS_A, T_HLClassificationScaleSeverity.HL_CS_SEVERITY_MILDMODERATE));
-        levelsOfHearing.Add(new HearingLevels(6, T_HLClassificationScaleCurve.HL_CS_A, T_HLClassificationScaleSeverity.HL_CS_SEVERITY_MILDMODERATE));
+        levelsOfHearing.Add(new HearingLevels(6, T_HLClassificationScaleCurve.HL_CS_B, T_HLClassificationScaleSeverity.HL_CS_SEVERITY_MILD));
 
         SetAudioHearingLossConfig();
+    }
+
+    public void PlayLevelSound(AudioClip audio)
+    {
+        audioSource.clip = audio;
+        audioSource.Play();
+    }
+
+    public void StopAudio()
+    {
+        audioSource.Stop();
     }
 
     public void LevelUp()
@@ -85,19 +100,19 @@ public class AudioManager : MonoBehaviour
 
         SetAudioHearingLossConfig();
         Debug.Log("Bajo de nivel");
-
-        UnapplyAid();
     }
 
     private void SetAudioHearingLossConfig()
     {
         audioAPIHearingLoss.SetAudiometryFromClassificationScale(T_ear.BOTH, levelsOfHearing[currentIndex].hearingLossCurve, levelsOfHearing[currentIndex].slope, levelsOfHearing[currentIndex].hearingLossSeverity);
+        UnapplyAid();
     }
 
     public void ApllyAid()
     {
         audioAPIAid.EnableHAInBothEars(true);
         List<float> hearingLevelsList = new List<float>(audioAPIHearingLoss.PARAM_AUDIOMETRY_LEFT);
+        
         hearingLevelsList.Remove(8);
         hearingLevelsList.Remove(0);
         List<float> calculatedGains;
