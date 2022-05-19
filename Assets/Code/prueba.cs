@@ -7,16 +7,15 @@ public class prueba : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(corrutina());
+        StartCoroutine(menuCoroutine());
     }
 
-    private IEnumerator corrutina()
+    private IEnumerator menuCoroutine()
     {
         yield return new WaitForSeconds(3f);
-        Debug.Log("ME EJECUTO");
-        pruebaa();
+        CambiarAPantallaDeJuego();
     }
-    private void pruebaa()
+    private void CambiarAPantallaDeJuego()
     {
         UIManager.GetInstance().ChangeScreen(ScreenType.InGameScreen);
     }
